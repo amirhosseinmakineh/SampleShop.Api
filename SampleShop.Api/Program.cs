@@ -1,6 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using SampleShop.InfraStracture.Context;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+#region RegisterDbContext
+builder.Services.AddDbContext<SampleShopDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SampleShopApiDb"));
+});
+#endregion
 
 var app = builder.Build();
 
