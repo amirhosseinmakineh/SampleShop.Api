@@ -1,41 +1,69 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using SampleShop.ApplicationService.Contract.Dtos.Category;
+using SampleShop.ApplicationService.Contract.IServices;
+using SampleShop.ApplicationService.Services;
+using SampleShop.Domain.IRepositories;
+using SampleShop.Domain.Models;
 using SampleShop.InfraStracture.Context;
-
+using SampleShop.InfraStracture.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 #region RegisterDbContext
 builder.Services.AddDbContext<SampleShopDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SampleShopApiDb"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SampleShopApi"));
 });
 #endregion
+#region RegisterRepository
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+#endregion
+#region RegisterServices
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+#endregion
+#region RegisterRedisServices
+builder.Services.AddScoped<IRedisConfigurationService<CategoryDto>, RedisConfigurationService<CategoryDto>>();
+#endregion
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "SampleApi API",
+        Version = "v1",
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
 
+                    }
+                });
+});
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
+app.MapControllers();
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
+if (app.Environment.IsDevelopment())
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
-
-app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    app.UseSwagger();
 }
+app.Run();

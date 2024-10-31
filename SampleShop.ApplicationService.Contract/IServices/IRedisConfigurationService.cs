@@ -1,9 +1,9 @@
 ﻿namespace SampleShop.ApplicationService.Contract.IServices
 {
-    public interface IRedisConfigurationService<T> where T :class
+    public interface IRedisConfigurationService<TDto> where TDto :class
     {
-        T GetData(string key);
-        bool SetData<T>(string key, T value, DateTimeOffset expirationTime);
+        TDto GetData<TDto>(string key);
+        bool SetData<TDto>(string key, TDto value, DateTimeOffset expirationTime);
         object RemoveData(string key);
     }
 }

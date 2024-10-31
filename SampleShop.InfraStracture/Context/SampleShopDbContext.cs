@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SampleShop.Domain.Models;
 
 namespace SampleShop.InfraStracture.Context
 {
@@ -8,5 +9,6 @@ namespace SampleShop.InfraStracture.Context
         {
         }
 
+        public DbSet<Category> Categories { get;set; }  
     }
 }

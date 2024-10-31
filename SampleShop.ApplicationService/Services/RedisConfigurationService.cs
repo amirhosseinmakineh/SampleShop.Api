@@ -2,11 +2,13 @@
 using SampleShop.ApplicationService.Contract.IServices;
 using SampleShop.InfraStracture.Context;
 using StackExchange.Redis;
+
 namespace SampleShop.ApplicationService.Services
 {
     public class RedisConfigurationService<T> : IRedisConfigurationService<T> where T : class
     {
         private IDatabase database;
+        private const string RedisEndpoint = "127.0.0.1:6379";
         public RedisConfigurationService()
         {
             ConfigRedis();
@@ -15,16 +17,18 @@ namespace SampleShop.ApplicationService.Services
         {
             var config = new ConfigurationOptions()
             {
-                EndPoints = { "http://localhost:5086/" },
+                EndPoints = {RedisEndpoint},
                 SocketManager = SocketManager.Shared,
+                AbortOnConnectFail = false,
                 ConfigurationChannel = ""
             };
             var redis = ConnectionMultiplexer.Connect(config);
             database = redis.GetDatabase();
-            var keys = redis.GetServer("http://localhost", 5086).Keys();
+            var server = redis.GetServer("127.0.0.1", 6379);
+            var keys = server.Keys();
 
         }
-        public T GetData(string key)
+        public T? GetData<T>(string key)
         {
             var value = database.StringGet(key);
             if (!string.IsNullOrEmpty(value))
