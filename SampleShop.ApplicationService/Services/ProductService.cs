@@ -3,6 +3,7 @@ using SampleShop.ApplicationService.Contract.Dtos;
 using SampleShop.ApplicationService.Contract.Dtos.Category;
 using SampleShop.ApplicationService.Contract.IServices;
 using SampleShop.Domain.IRepositories;
+using ServiceStack;
 
 namespace SampleShop.ApplicationService.Services
 {
@@ -11,6 +12,7 @@ namespace SampleShop.ApplicationService.Services
         private readonly IProductRepository repository;
         private readonly ICategoryRepository categoryRepository;
         private readonly DateConvertor dateConvertor;
+
         public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, DateConvertor dateConvertor)
         {
             this.repository = repository;
@@ -20,24 +22,37 @@ namespace SampleShop.ApplicationService.Services
 
         public List<ProductDto> GetNewsProduct()
         {
-            var products = repository.GetAll()
-                .ToList();
-            var categories = categoryRepository.GetAll().Select(x=> new CategoryDto()
+            var result = repository.GetAll()
+                .Select(x => new ProductDto()
             {
+                CategoryTitle = x.Category.Title,
+                CreateObjectDate = x.CreateObjectDat,
+                ImageName = x.ImageName,
+                IsDelete = x.IsDelete,
+                Price = x.Price,
+                Title = x.Title,
+                CategoryId = x.CategoryId,
                 Id = x.Id
-            }).ToList();
-            var result = (from p in products
-                         join c in categories on p.CategoryId equals c.Id
-                         select new ProductDto()
-                         {
-                             CategoryTitle = p.Category.Title,
-                             CreateObjectDate = p.CreateObjectDat,
-                             Id = p.Id,
-                             ImageName = p.ImageName,
-                             IsDelete = p.IsDelete,
-                             Price = p.Price,
-                             Title = p.Title
-                         }).ToList();
+            }).OrderBy(x => x.CreateObjectDate)
+            .ToList();
+            return result;
+        }
+
+        public List<ProductDto> GetSpacialProducts()
+        {
+            var result = repository.GetAll()
+               .Select(x => new ProductDto()
+               {
+                   CategoryTitle = x.Category.Title,
+                   CreateObjectDate = x.CreateObjectDat,
+                   ImageName = x.ImageName,
+                   IsDelete = x.IsDelete,
+                   Price = x.Price,
+                   Title = x.Title,
+                   CategoryId = x.CategoryId,
+                   Id = x.Id
+               }).OrderByDescending(x => x.Price)
+               .ToList();
             return result;
         }
     }

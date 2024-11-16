@@ -4,7 +4,7 @@ namespace SampleShop.ApplicationService.Contract.IServices
 {
     public interface ICategoryService
     {
-        List<CategoryDto> GetAllCategory();
+        List<CategoryDto> GetAllCategoryForMenu();
         void AddCategory(AddCategoryDto dto);
     }
 }

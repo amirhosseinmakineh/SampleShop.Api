@@ -30,7 +30,7 @@ namespace SampleShop.Api.Controllers
 
             var expirationTime = DateTimeOffset.Now.AddMinutes(1000);
 
-            cashData = services.GetAllCategory();
+            cashData = services.GetAllCategoryForMenu();
 
             redisConfiguration.SetData(nameof(CategoryDto), cashData, expirationTime);
 

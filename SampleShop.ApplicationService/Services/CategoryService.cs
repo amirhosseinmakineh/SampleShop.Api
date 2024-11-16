@@ -28,15 +28,13 @@ namespace SampleShop.ApplicationService.Services
             repository.Add(category);
             repository.SaveChanges();
         }
-        public List<CategoryDto> GetAllCategory()
+        public List<CategoryDto> GetAllCategoryForMenu ()
         {
             return repository
                 .GetAll()
                 .Select(x => new CategoryDto()
                 {
-                    Description = x.Description,
                     Id = x.Id,
-                    IsDelete = x.IsDelete,
                     ParentId = x.ParentId,
                     Title = x.Title,
                 }).ToList();
