@@ -4,5 +4,6 @@
     {
         public Tkey Id { get; set; }
         public bool IsDelete { get; set; }
+        public string CreateObjectDate { get; set; } = string.Empty;
     }
 }

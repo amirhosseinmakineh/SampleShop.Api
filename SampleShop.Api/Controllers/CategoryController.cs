@@ -21,15 +21,26 @@ namespace SampleShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var cashData = redisConfiguration.GetData<List<CategoryDto>>("CategoryDto");
+            var cashData = redisConfiguration.GetData<List<CategoryDto>>(nameof(CategoryDto));
+
             if (cashData != null)
             {
                 return Ok(cashData);
             }
-            var expirationTime = DateTimeOffset.Now.AddMinutes(5.0);
+
+            var expirationTime = DateTimeOffset.Now.AddMinutes(1000);
+
             cashData = services.GetAllCategory();
-            redisConfiguration.SetData<List<CategoryDto>>("CategoryDto", cashData, expirationTime);
+
+            redisConfiguration.SetData(nameof(CategoryDto), cashData, expirationTime);
+
             return Ok(cashData);
+        }
+        [HttpPost]
+        public IActionResult Add(AddCategoryDto dto)
+        {
+            services.AddCategory(dto);
+            return Ok(dto);
         }
     }
 }

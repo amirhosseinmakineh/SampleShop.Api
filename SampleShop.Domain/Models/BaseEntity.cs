@@ -4,6 +4,6 @@
     {
         public TKey Id { get; set; }
         public bool IsDelete { get; set; }
-        public DateTime CreateObjectDat { get; set; }
+        public string CreateObjectDat { get; set; } = string.Empty;
     }
 }

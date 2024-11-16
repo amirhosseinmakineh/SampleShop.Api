@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SampleShop.ApplicationService.Contract.Dtos.Category;
 using SampleShop.ApplicationService.Contract.IServices;
 using SampleShop.ApplicationService.Services;
 using SampleShop.Domain.IRepositories;
-using SampleShop.Domain.Models;
 using SampleShop.InfraStracture.Context;
 using SampleShop.InfraStracture.Repositories;
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +15,14 @@ builder.Services.AddDbContext<SampleShopDbContext>(options =>
 #endregion
 #region RegisterRepository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
+builder.Services.AddScoped<IColorRepository, ColorRepository>();
+builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
 #endregion
 #region RegisterServices
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 #endregion
 #region RegisterRedisServices
 builder.Services.AddScoped<IRedisConfigurationService<CategoryDto>, RedisConfigurationService<CategoryDto>>();
