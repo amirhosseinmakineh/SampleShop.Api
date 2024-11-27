@@ -16,7 +16,7 @@ namespace SampleShop.Api.Controllers
             this.redisConfiguration = redisConfiguration;
         }
 
-        [HttpGet]
+        [HttpGet("GetNewsProduct")]
         public IActionResult GetNewsProduct()
         {
             var productsCashData = redisConfiguration.GetData<List<ProductDto>>(nameof(ProductDto));
@@ -32,7 +32,7 @@ namespace SampleShop.Api.Controllers
 
             return Ok(products);
         }
-        [HttpGet]
+        [HttpGet("GetSpacialProducts")]
         public IActionResult GetSpacialProducts()
         {
             var productsCashData = redisConfiguration.GetData<List<ProductDto>>(nameof(ProductDto));

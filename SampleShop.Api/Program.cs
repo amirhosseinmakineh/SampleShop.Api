@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SampleShop.ApplicationService.Contract.Dtos;
 using SampleShop.ApplicationService.Contract.Dtos.Category;
 using SampleShop.ApplicationService.Contract.IServices;
 using SampleShop.ApplicationService.Services;
@@ -7,6 +8,7 @@ using SampleShop.Domain.IRepositories;
 using SampleShop.InfraStracture.Context;
 using SampleShop.InfraStracture.Repositories;
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.GetSection("CdnConfiguration").Bind(new CdnConfiguration());
 #region RegisterDbContext
 builder.Services.AddDbContext<SampleShopDbContext>(options =>
 {
@@ -23,9 +25,13 @@ builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
 #region RegisterServices
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IColorService, ColorService>();
+builder.Services.AddScoped<IFeatureService, FeatureService>();
+builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 #endregion
 #region RegisterRedisServices
 builder.Services.AddScoped<IRedisConfigurationService<CategoryDto>, RedisConfigurationService<CategoryDto>>();
+builder.Services.AddScoped<IRedisConfigurationService<ProductDto>, RedisConfigurationService<ProductDto>>();
 #endregion
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

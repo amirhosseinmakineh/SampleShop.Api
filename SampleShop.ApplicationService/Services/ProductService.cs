@@ -13,11 +13,10 @@ namespace SampleShop.ApplicationService.Services
         private readonly ICategoryRepository categoryRepository;
         private readonly DateConvertor dateConvertor;
 
-        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, DateConvertor dateConvertor)
+        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository)
         {
             this.repository = repository;
             this.categoryRepository = categoryRepository;
-            this.dateConvertor = dateConvertor;
         }
 
         public List<ProductDto> GetNewsProduct()
@@ -27,7 +26,7 @@ namespace SampleShop.ApplicationService.Services
             {
                 CategoryTitle = x.Category.Title,
                 CreateObjectDate = x.CreateObjectDat,
-                ImageName = x.ImageName,
+                ImageName = $"{CdnConfiguration.FileUrl}/{x.ImageName}",
                 IsDelete = x.IsDelete,
                 Price = x.Price,
                 Title = x.Title,
@@ -45,7 +44,7 @@ namespace SampleShop.ApplicationService.Services
                {
                    CategoryTitle = x.Category.Title,
                    CreateObjectDate = x.CreateObjectDat,
-                   ImageName = x.ImageName,
+                   ImageName = $"{CdnConfiguration.FileUrl}/{x.ImageName}",
                    IsDelete = x.IsDelete,
                    Price = x.Price,
                    Title = x.Title,
