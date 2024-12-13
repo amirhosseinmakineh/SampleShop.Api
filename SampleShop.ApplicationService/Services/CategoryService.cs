@@ -39,5 +39,38 @@ namespace SampleShop.ApplicationService.Services
                     Title = x.Title,
                 }).ToList();
         }
+        public List<CategoryDto> GetAll()
+        {
+            var result = (from c in repository.GetAll()
+                         select new CategoryDto()
+                         {
+                             CreateObjectDate = c.CreateObjectDat,
+                             Description = c.Description,
+                             Id = c.Id,
+                             IsDelete = c.IsDelete,
+                             ParentId = c.ParentId,
+                             Title = c.Title
+                         }).OrderByDescending(x=> x.CreateObjectDate)
+                         .ToList();
+            return result;
+        }
+
+        public void UpdateCategory(UpdateCategoryDto dto)
+        {
+            var category = repository.GetById(dto.Id);
+            category.Title = dto.Title;
+            category.CreateObjectDat = dto.CreateObjectDate;
+            category.Description = dto.Description;
+            category.IsDelete = dto.IsDelete;
+            category.ParentId = dto.ParentID;
+            repository.Update(category);
+            repository.SaveChanges();
+        }
+
+        public void Delete(long id)
+        {
+            repository.Delete(id);
+            repository.SaveChanges();
+        }
     }
 }

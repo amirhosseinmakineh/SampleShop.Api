@@ -6,5 +6,8 @@ namespace SampleShop.ApplicationService.Contract.IServices
     {
         List<CategoryDto> GetAllCategoryForMenu();
         void AddCategory(AddCategoryDto dto);
+        List<CategoryDto> GetAll();
+        void UpdateCategory(UpdateCategoryDto dto);
+        void Delete(long id);
     }
 }
