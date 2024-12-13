@@ -45,7 +45,6 @@ namespace SampleShop.Api.Controllers
             var expireCashData = DateTimeOffset.Now.AddMinutes(1000);
 
             var setProductCashData = redisConfiguration.SetData(nameof(ProductDto), spacialProducts, expireCashData);
-
             return Ok(spacialProducts);
         }
     }

@@ -5,13 +5,15 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleShop.Api", "SampleShop.Api\SampleShop.Api.csproj", "{BC1398C1-3312-4C92-AE64-63C1AA72438B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleShop.Domain", "SampleShop.Domain\SampleShop.Domain.csproj", "{0201072D-A560-4E4A-B1A8-0E7200CE7D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleShop.Domain", "SampleShop.Domain\SampleShop.Domain.csproj", "{0201072D-A560-4E4A-B1A8-0E7200CE7D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleShop.InfraStracture", "SampleShop.InfraStracture\SampleShop.InfraStracture.csproj", "{EE53C06D-03D8-440D-A585-8D2BC75B2862}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleShop.InfraStracture", "SampleShop.InfraStracture\SampleShop.InfraStracture.csproj", "{EE53C06D-03D8-440D-A585-8D2BC75B2862}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleShop.ApplicationService.Contract", "SampleShop.ApplicationService.Contract\SampleShop.ApplicationService.Contract.csproj", "{EDECD6BE-DF2B-4ED4-888F-6F791BD0F626}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleShop.ApplicationService.Contract", "SampleShop.ApplicationService.Contract\SampleShop.ApplicationService.Contract.csproj", "{EDECD6BE-DF2B-4ED4-888F-6F791BD0F626}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleShop.ApplicationService", "SampleShop.ApplicationService\SampleShop.ApplicationService.csproj", "{39284CA8-F658-468C-BCC3-721DA4B111FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleShop.ApplicationService", "SampleShop.ApplicationService\SampleShop.ApplicationService.csproj", "{39284CA8-F658-468C-BCC3-721DA4B111FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleShopApi.Test", "SampleShopApi.Test\SampleShopApi.Test.csproj", "{E495BFD7-B753-467E-AB84-EDA4DF213D5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{39284CA8-F658-468C-BCC3-721DA4B111FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39284CA8-F658-468C-BCC3-721DA4B111FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39284CA8-F658-468C-BCC3-721DA4B111FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E495BFD7-B753-467E-AB84-EDA4DF213D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E495BFD7-B753-467E-AB84-EDA4DF213D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E495BFD7-B753-467E-AB84-EDA4DF213D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E495BFD7-B753-467E-AB84-EDA4DF213D5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

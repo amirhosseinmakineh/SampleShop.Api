@@ -6,5 +6,9 @@ namespace SampleShop.ApplicationService.Contract.IServices
     {
         List<ProductDto> GetNewsProduct();
         List<ProductDto> GetSpacialProducts();
+        void Add(ProductAddDto dto);
+        void UpdateProduct(ProductUpdateDto dto);
+        List<ProductDto> GetAllProducts();
+        void DeleteProduct(long id);
     }
 }

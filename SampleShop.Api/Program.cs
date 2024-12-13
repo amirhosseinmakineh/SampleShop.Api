@@ -21,6 +21,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
 builder.Services.AddScoped<IColorRepository, ColorRepository>();
 builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
+builder.Services.AddScoped(typeof(IBaseRepository<,>),typeof(BaseRepository<,>));
 #endregion
 #region RegisterServices
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -74,5 +75,6 @@ app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI();
 }
 app.Run();
