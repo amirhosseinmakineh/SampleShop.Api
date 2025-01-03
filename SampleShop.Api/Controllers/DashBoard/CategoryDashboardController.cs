@@ -7,11 +7,11 @@ namespace SampleShop.Api.Controllers.DashBoard
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryDashboardController : ControllerBase
     {
         private readonly ICategoryService categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryDashboardController(ICategoryService categoryService)
         {
             this.categoryService = categoryService;
         }
@@ -37,7 +37,7 @@ namespace SampleShop.Api.Controllers.DashBoard
             return Created("http://localhost:5086/", dto);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
             categoryService.Delete(id);

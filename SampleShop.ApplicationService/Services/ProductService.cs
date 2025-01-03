@@ -7,6 +7,9 @@ using SampleShop.Domain.IRepositories;
 using SampleShop.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
+using SampleShop.InfraStracture.Repositories;
+using SampleShop.Domain.UnitOfWork;
+using Microsoft.AspNetCore.Http;
 
 namespace SampleShop.ApplicationService.Services
 {
@@ -15,11 +18,12 @@ namespace SampleShop.ApplicationService.Services
         private readonly IProductRepository repository;
         private readonly ICategoryRepository categoryRepository;
         private readonly DateConvertor dateConvertor;
-
-        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository)
+        private readonly IUnitOfWork unitOfWork;
+        public ProductService(IProductRepository repository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             this.repository = repository;
             this.categoryRepository = categoryRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public void Add(ProductAddDto dto)
@@ -33,10 +37,25 @@ namespace SampleShop.ApplicationService.Services
                 Title = dto.Title,
                 CreateObjectDat = dto.CreateObjectDate
             };
-
             repository.Add(product);
-            repository.SaveChanges();
-            dto.CrudState = AddOrUpdateEnums.Add;
+            SaveImage(dto.ImageName,dto.ImageUpload);
+            int count = repository.SaveChanges();
+
+        }
+
+        public bool CheckImage(ProductUpdateDto dto)
+        {
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), CdnConfiguration.FileUrl, dto.ImageName);
+            if (File.Exists(imagePath))
+                return true;
+            return false;
+        }
+
+        public void DeleteImage(ProductUpdateDto dto)
+        {
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), CdnConfiguration.FileUrl, dto.ImageName);
+            if (CheckImage(dto))
+                File.Delete(imagePath);
         }
 
         public void DeleteProduct(long id)
@@ -100,6 +119,16 @@ namespace SampleShop.ApplicationService.Services
             return result;
         }
 
+        public void SaveImage(string imageName, IFormFile file)
+        {
+            var destinationPath = CdnConfiguration.FileUrl + $"/{file.FileName}";
+            using (var stream = new FileStream(destinationPath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+        }
+
+
         public void UpdateProduct(ProductUpdateDto dto)
         {
             var product = repository.GetById(dto.Id);
@@ -115,6 +144,8 @@ namespace SampleShop.ApplicationService.Services
             }
             else
                 throw new NullReferenceException();
+            DeleteImage(dto);
+            SaveImage(dto.ImageName, dto.ImageUpload);
         }
     }
 }

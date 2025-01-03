@@ -1,4 +1,5 @@
-﻿using SampleShop.ApplicationService.Contract.Dtos;
+﻿using Microsoft.AspNetCore.Http;
+using SampleShop.ApplicationService.Contract.Dtos;
 
 namespace SampleShop.ApplicationService.Contract.IServices
 {
@@ -10,5 +11,8 @@ namespace SampleShop.ApplicationService.Contract.IServices
         void UpdateProduct(ProductUpdateDto dto);
         List<ProductDto> GetAllProducts();
         void DeleteProduct(long id);
+        void SaveImage(string imageName , IFormFile file);
+        bool CheckImage(ProductUpdateDto dto);
+        void DeleteImage(ProductUpdateDto dto);
     }
 }

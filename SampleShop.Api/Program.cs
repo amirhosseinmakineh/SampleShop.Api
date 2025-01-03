@@ -5,8 +5,11 @@ using SampleShop.ApplicationService.Contract.Dtos.Category;
 using SampleShop.ApplicationService.Contract.IServices;
 using SampleShop.ApplicationService.Services;
 using SampleShop.Domain.IRepositories;
+using SampleShop.Domain.UnitOfWork;
 using SampleShop.InfraStracture.Context;
 using SampleShop.InfraStracture.Repositories;
+using SampleShop.InfraStracture.UnitOfWorks;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.GetSection("CdnConfiguration").Bind(new CdnConfiguration());
 #region RegisterDbContext
@@ -21,6 +24,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
 builder.Services.AddScoped<IColorRepository, ColorRepository>();
 builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<,>),typeof(BaseRepository<,>));
 #endregion
 #region RegisterServices
@@ -29,6 +33,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IColorService, ColorService>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+builder.Services.AddScoped<ISliderService, SliderService>();
 #endregion
 #region RegisterRedisServices
 builder.Services.AddScoped<IRedisConfigurationService<CategoryDto>, RedisConfigurationService<CategoryDto>>();

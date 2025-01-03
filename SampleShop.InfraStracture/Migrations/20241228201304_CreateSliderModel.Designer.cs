@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SampleShop.InfraStracture.Context;
 
@@ -11,9 +12,11 @@ using SampleShop.InfraStracture.Context;
 namespace SampleShop.InfraStracture.Migrations
 {
     [DbContext(typeof(SampleShopDbContext))]
-    partial class SampleShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241228201304_CreateSliderModel")]
+    partial class CreateSliderModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

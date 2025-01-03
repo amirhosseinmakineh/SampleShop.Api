@@ -14,9 +14,9 @@
 
         #region Relations
         public virtual Category Category { get; set; }
-        public ICollection<ProductDetail> ProductDetails { get; set; }
-        public ICollection<Color> Colors { get; set; }
-        public ICollection<Featur> Featurs { get; set; }
+        public virtual ICollection<ProductDetail> ProductDetails { get; set; }
+        public virtual ICollection<Color> Colors { get; set; }
+        public virtual ICollection<Featur> Featurs { get; set; }
         #endregion
     }
 }

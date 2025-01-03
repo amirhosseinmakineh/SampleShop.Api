@@ -9,11 +9,11 @@ namespace SampleShop.Api.Controllers.DashBoard
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductDashBoardController : ControllerBase
     {
         private readonly IProductService productService;
 
-        public ProductController(IProductService productService)
+        public ProductDashBoardController(IProductService productService)
         {
             this.productService = productService;
         }
@@ -37,7 +37,7 @@ namespace SampleShop.Api.Controllers.DashBoard
             productService.UpdateProduct(dto);
             return Created("http://localhost:5086/", dto);
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
             productService.DeleteProduct(id);
