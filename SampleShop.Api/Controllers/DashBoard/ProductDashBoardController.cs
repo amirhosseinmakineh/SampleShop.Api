@@ -12,16 +12,27 @@ namespace SampleShop.Api.Controllers.DashBoard
     public class ProductDashBoardController : ControllerBase
     {
         private readonly IProductService productService;
-
-        public ProductDashBoardController(IProductService productService)
+        private readonly IRedisConfigurationService<List<ProductDto>> redisConfigurationService;
+        public ProductDashBoardController(IProductService productService, IRedisConfigurationService<List<ProductDto>> redisConfigurationService)
         {
             this.productService = productService;
+            this.redisConfigurationService = redisConfigurationService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var products = productService.GetAllProducts();
+            var productsCashData = redisConfigurationService.GetData<List<ProductDto>>(nameof(ProductDto));
+
+            if (productsCashData != null)
+                return Ok(productsCashData);
+
+            var products = productService.GetNewsProduct();
+
+            var expireCashData = DateTimeOffset.Now.AddMinutes(1000);
+
+            var setProductCashData = redisConfigurationService.SetData(nameof(ProductDto), products, expireCashData);
+
             return Ok(products);
         }
 
