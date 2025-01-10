@@ -15,5 +15,6 @@ namespace SampleShop.InfraStracture.Context
         public DbSet<Color> Colors { get; set; }
         public DbSet<Featur> Featurs { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<Brand> Brands { get; set; }
     }
 }

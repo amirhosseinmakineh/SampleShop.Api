@@ -4,6 +4,7 @@ using SampleShop.ApplicationService.Contract.Dtos;
 using SampleShop.ApplicationService.Contract.Dtos.Category;
 using SampleShop.ApplicationService.Contract.IServices;
 using SampleShop.ApplicationService.Services;
+using SampleShop.Domain.AutoMapperConfiguration;
 using SampleShop.Domain.IRepositories;
 using SampleShop.Domain.UnitOfWork;
 using SampleShop.InfraStracture.Context;
@@ -34,10 +35,14 @@ builder.Services.AddScoped<IColorService, ColorService>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<ISliderService, SliderService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 #endregion
 #region RegisterRedisServices
 builder.Services.AddScoped<IRedisConfigurationService<CategoryDto>, RedisConfigurationService<CategoryDto>>();
 builder.Services.AddScoped<IRedisConfigurationService<ProductDto>, RedisConfigurationService<ProductDto>>();
+#endregion
+#region RegisterAutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 #endregion
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -69,7 +74,6 @@ builder.Services.AddSwaggerGen(c =>
                                 }
                             },
                             new string[] {}
-
                     }
                 });
 });
