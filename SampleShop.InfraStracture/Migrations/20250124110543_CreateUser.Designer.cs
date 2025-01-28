@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SampleShop.InfraStracture.Context;
 
@@ -11,9 +12,11 @@ using SampleShop.InfraStracture.Context;
 namespace SampleShop.InfraStracture.Migrations
 {
     [DbContext(typeof(SampleShopDbContext))]
-    partial class SampleShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250124110543_CreateUser")]
+    partial class CreateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,7 +227,12 @@ namespace SampleShop.InfraStracture.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Roles");
                 });
@@ -276,8 +284,8 @@ namespace SampleShop.InfraStracture.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -285,7 +293,7 @@ namespace SampleShop.InfraStracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -343,15 +351,22 @@ namespace SampleShop.InfraStracture.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("SampleShop.Domain.Models.User", b =>
+            modelBuilder.Entity("SampleShop.Domain.Models.Role", b =>
                 {
-                    b.HasOne("SampleShop.Domain.Models.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("SampleShop.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SampleShop.Domain.Models.User", b =>
+                {
+                    b.HasOne("SampleShop.Domain.Models.User", null)
+                        .WithMany("Users")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SampleShop.Domain.Models.Category", b =>
@@ -370,7 +385,7 @@ namespace SampleShop.InfraStracture.Migrations
                     b.Navigation("ProductDetails");
                 });
 
-            modelBuilder.Entity("SampleShop.Domain.Models.Role", b =>
+            modelBuilder.Entity("SampleShop.Domain.Models.User", b =>
                 {
                     b.Navigation("Users");
                 });

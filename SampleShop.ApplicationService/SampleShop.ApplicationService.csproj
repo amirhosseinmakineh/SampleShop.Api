@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SampleApi.Security\SampleApi.Security.csproj" />
     <ProjectReference Include="..\SampleShop.ApplicationService.Contract\SampleShop.ApplicationService.Contract.csproj" />
     <ProjectReference Include="..\SampleShop.InfraStracture\SampleShop.InfraStracture.csproj" />
   </ItemGroup>

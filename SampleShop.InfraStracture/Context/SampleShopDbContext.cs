@@ -16,5 +16,7 @@ namespace SampleShop.InfraStracture.Context
         public DbSet<Featur> Featurs { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }
