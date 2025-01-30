@@ -17,6 +17,7 @@
         public virtual ICollection<ProductDetail> ProductDetails { get; set; }
         public virtual ICollection<Color> Colors { get; set; }
         public virtual ICollection<Featur> Featurs { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         #endregion
     }
 }
