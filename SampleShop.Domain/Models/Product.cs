@@ -6,6 +6,9 @@
         {
             ProductDetails = new HashSet<ProductDetail>();
             Colors = new HashSet<Color>();
+            Featurs = new HashSet<Featur>();
+            Comments = new HashSet<Comment>();
+            OrderProducts = new HashSet<OrderProduct>();
         }
         public string Title { get; set; } = string.Empty;
         public long CategoryId { get; set; }
@@ -18,6 +21,7 @@
         public virtual ICollection<Color> Colors { get; set; }
         public virtual ICollection<Featur> Featurs { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }    
         #endregion
     }
 }

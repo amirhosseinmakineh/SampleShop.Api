@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SampleShop.InfraStracture.Context;
 
@@ -11,9 +12,11 @@ using SampleShop.InfraStracture.Context;
 namespace SampleShop.InfraStracture.Migrations
 {
     [DbContext(typeof(SampleShopDbContext))]
-    partial class SampleShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250130160600_CreateOrder")]
+    partial class CreateOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,78 +188,19 @@ namespace SampleShop.InfraStracture.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("SampleShop.Domain.Models.OrderDetail", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("CreateObjectDat")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("TotalOrderSum")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderDetail");
-                });
-
-            modelBuilder.Entity("SampleShop.Domain.Models.OrderProduct", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("CreateObjectDat")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("ProductPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("SampleShop.Domain.Models.Product", b =>
@@ -456,43 +400,21 @@ namespace SampleShop.InfraStracture.Migrations
 
             modelBuilder.Entity("SampleShop.Domain.Models.Order", b =>
                 {
+                    b.HasOne("SampleShop.Domain.Models.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SampleShop.Domain.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SampleShop.Domain.Models.OrderDetail", b =>
-                {
-                    b.HasOne("SampleShop.Domain.Models.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("SampleShop.Domain.Models.OrderProduct", b =>
-                {
-                    b.HasOne("SampleShop.Domain.Models.Order", "Order")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SampleShop.Domain.Models.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
                     b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SampleShop.Domain.Models.Product", b =>
@@ -535,13 +457,6 @@ namespace SampleShop.InfraStracture.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("SampleShop.Domain.Models.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("OrderProducts");
-                });
-
             modelBuilder.Entity("SampleShop.Domain.Models.Product", b =>
                 {
                     b.Navigation("Colors");
@@ -550,7 +465,7 @@ namespace SampleShop.InfraStracture.Migrations
 
                     b.Navigation("Featurs");
 
-                    b.Navigation("OrderProducts");
+                    b.Navigation("Orders");
 
                     b.Navigation("ProductDetails");
                 });
