@@ -10,5 +10,6 @@ namespace SampleShop.Domain.IRepositories
         TEntity GetById(TKey key);
         int SaveChanges();
         void Delete(TKey key);
+        void AddRange(List<TEntity> entityies);
     }
 }

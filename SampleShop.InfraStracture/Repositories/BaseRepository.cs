@@ -18,6 +18,11 @@ namespace SampleShop.InfraStracture.Repositories
             context.Set<TEntity>().Add(entity);
         }
 
+        public void AddRange(List<TEntity> entityies)
+        {
+            context.AddRange(entityies);
+        }
+
         public void Delete(TKey key)
         {
             var entity = GetById(key);
