@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SampleApi.Security;
 using SampleShop.ApplicationService.Contract.Dtos;
 using SampleShop.ApplicationService.Contract.Dtos.Category;
 using SampleShop.ApplicationService.Contract.IServices;
@@ -38,6 +39,8 @@ builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 #endregion
 #region RegisterRedisServices
 builder.Services.AddScoped<IRedisConfigurationService<CategoryDto>, RedisConfigurationService<CategoryDto>>();
@@ -46,7 +49,7 @@ builder.Services.AddScoped<IRedisConfigurationService<ProductDto>, RedisConfigur
 #region RegisterAutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 #endregion
-builder.Services.AddSingleton<UnitOfWorkAttributeManager>();
+builder.Services.AddScoped<UnitOfWorkAttributeManager>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

@@ -10,9 +10,10 @@ namespace SampleShop.ApplicationService.UnitOfWork
     {
         private readonly HashSet<string> unitOfWorkAttributes;
 
-        public UnitOfWorkAttributeManager(HashSet<string> unitOfWorkAttributes)
+        public UnitOfWorkAttributeManager()
         {
-            this.unitOfWorkAttributes = unitOfWorkAttributes;
+            unitOfWorkAttributes = new HashSet<string>();
+            SetValue();
         }
 
         public void SetValue()

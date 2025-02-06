@@ -33,7 +33,7 @@ namespace SampleShop.ApplicationService.Services
         {
             var user = new User()
             {
-                Id = dto.Id,
+                Id = Guid.NewGuid(),
                 IsDelete = false,
                 IsLock = false,
                 MobileNumber = dto.MobileNumber,
@@ -42,23 +42,8 @@ namespace SampleShop.ApplicationService.Services
                 UserName = dto.UserName,
                 CreateObjectDat = dateConvertor.CreatePerisanDate(dto.CreateObjectDate, out string persianDate)
             };
-
-            try
-            {
-                if (user != null)
-                {
-                    throw new Exception("کاربر وجود دارد");
-                }
-                else
-                {
                     repository.Add(user);
                     repository.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
     }
 }
